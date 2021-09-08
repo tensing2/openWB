@@ -18,17 +18,17 @@ if [[ $? == "0" ]] ; then
 	fi
 	lla1=$(echo $output | jq -r '.nrg[4]')
 	lla1=$(echo "scale=1;$lla1 / 10" |bc)
-	if [[ $lla1 =~ $re ]] ; then
+	if [[ $lla1 =~ $rekwh ]] ; then
 		echo $lla1 > /var/www/html/openWB/ramdisk/llas21
 	fi
 	lla2=$(echo $output | jq -r '.nrg[5]')
 	lla2=$(echo "scale=1;$lla2 / 10" |bc)
-	if [[ $lla2 =~ $re ]] ; then
+	if [[ $lla2 =~ $rekwh ]] ; then
 		echo $lla2 > /var/www/html/openWB/ramdisk/llas22
 	fi
 	lla3=$(echo $output | jq -r '.nrg[6]')
 	lla3=$(echo "scale=1;$lla3 / 10" |bc)
-	if [[ $lla3 =~ $re ]] ; then
+	if [[ $lla3 =~ $rekwh ]] ; then
 		echo $lla3 > /var/www/html/openWB/ramdisk/llas23
 	fi
 	llv1=$(echo $output | jq -r '.nrg[0]')
