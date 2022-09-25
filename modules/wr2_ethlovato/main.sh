@@ -1,10 +1,15 @@
 #!/bin/bash
+OPENWBBASEDIR=$(cd "$(dirname "$0")/../../" && pwd)
+RAMDISKDIR="${OPENWBBASEDIR}/ramdisk"
+DMOD="PV"
+#DMOD="MAIN"
 
-if (( pv2kitversion == 1 )); then
-	python /var/www/html/openWB/modules/wr2_ethlovato/readsdm.py  
+if [ ${DMOD} == "MAIN" ]; then
+	MYLOGFILE="${RAMDISKDIR}/openWB.log"
 else
-	python /var/www/html/openWB/modules/wr2_ethlovato/readlovato.py  
+	MYLOGFILE="${RAMDISKDIR}/nurpv.log"
 fi
 
-pv2watt=$(</var/www/html/openWB/ramdisk/pv2watt)
-echo $pv2watt
+bash "$OPENWBBASEDIR/packages/legacy_run.sh" "modules.openwb_pv_kit.device" "inverter" "${pv2kitversion}" "2">>"$MYLOGFILE" 2>&1
+
+cat "$RAMDISKDIR/pv2watt"

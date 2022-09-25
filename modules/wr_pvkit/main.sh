@@ -1,10 +1,16 @@
 #!/bin/bash
-if (( pvkitversion == 1 )); then
-	python /var/www/html/openWB/modules/wr_pvkit/readlovato.py 
-elif (( pvkitversion == 2 )); then
-	python /var/www/html/openWB/modules/wr_pvkit/readsdm.py
+OPENWBBASEDIR=$(cd "$(dirname "$0")/../../" && pwd)
+RAMDISKDIR="${OPENWBBASEDIR}/ramdisk"
+DMOD="PV"
+
+#For development only
+#Debug=1
+
+if [ ${DMOD} == "MAIN" ]; then
+	MYLOGFILE="${RAMDISKDIR}/openWB.log"
 else
-	python /var/www/html/openWB/modules/wr_pvkit/readmpm3pm.py 
+	MYLOGFILE="${RAMDISKDIR}/nurpv.log"
 fi
-pvwatt=$(</var/www/html/openWB/ramdisk/pvwatt)
-echo $pvwatt
+
+bash "$OPENWBBASEDIR/packages/legacy_run.sh" "modules.openwb_pv_kit.device" "inverter" "${pvkitversion}" "1">>"${MYLOGFILE}" 2>&1
+cat "$RAMDISKDIR/pvwatt"
