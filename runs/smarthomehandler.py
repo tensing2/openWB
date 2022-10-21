@@ -688,7 +688,10 @@ def getdevicevalues():
         if ( n == "1" ):
             #alle devices laufen gleich
             (switchtyp,canswitch) = gettyp(numberOfDevices)
-            devicename = str(config.get('smarthomedevices', 'device_name_'+str(numberOfDevices)))
+            try:
+                devicename = str(config.get('smarthomedevices', 'device_name_'+str(numberOfDevices)))
+            except:
+                devicename = "undef"    
             (devuberschuss,ueberschussberechnung) = getueb(numberOfDevices)
             try:
                 device_leistungurl = str(config.get('smarthomedevices', 'device_leistungurl_'+str(numberOfDevices)))
